@@ -1,42 +1,37 @@
-name: terraform-plan
-
+name: terraform-manual
 
 on:
-  workflow_dispatch:  # déclenchement manuel depuis l'onglet Actions
+  workflow_dispatch: {}
 
 permissions:
   contents: read
-  id-token: write  # requis pour OIDC
+  id-token: write  # OIDC
 
 jobs:
-  terraform-plan:
-    name: Terraform Init & Plan (manual)
+  plan:
     runs-on: ubuntu-latest
+
+    # <<<<<< AJOUT ICI : variables ARM_* + OIDC >>>>>>
+    env:
+      ARM_CLIENT_ID:       ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_TENANT_ID:       ${{ secrets.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_USE_OIDC:        true
+
     defaults:
       run:
         shell: bash
-        working-directory: infra  # adapte si ton code n'est pas dans infra/
+        working-directory: infra
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      
-      - name: Debug — List repo content
-        run: |
-          echo "PWD: $(pwd)"
-          echo "--- Top-level ---"
-          ls -la
-          echo
-          echo "--- First 3 levels (files only) ---"
-          find . -maxdepth 3 -type f -print | sed 's|^\./||' | sort
-
-
       - name: Azure login (OIDC)
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          client-id:       ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id:       ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Setup Terraform
@@ -51,12 +46,11 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        id: plan
         run: |
           terraform plan -no-color -out=tfplan -input=false
           terraform show -no-color tfplan > plan.txt
 
-      - name: Upload plan as artifact
+      - name: Upload plan
         uses: actions/upload-artifact@v4
         with:
           name: tfplan-${{ github.run_id }}
