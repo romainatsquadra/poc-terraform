@@ -21,6 +21,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      
+      - name: Debug — List repo content
+        run: |
+          echo "PWD: $(pwd)"
+          echo "--- Top-level ---"
+          ls -la
+          echo
+          echo "--- First 3 levels (files only) ---"
+          find . -maxdepth 3 -type f -print | sed 's|^\./||' | sort
+
+
       - name: Azure login (OIDC)
         uses: azure/login@v2
         with:
