@@ -1,5 +1,5 @@
 module "keyvault" {
-  source                      = "keyvault"
+  source                      = "./modules/keyvault"
   name                        = "newkv4198445"
   location                    = "eastus"
   rg                          = "POC-TF"
