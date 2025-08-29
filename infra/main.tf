@@ -10,11 +10,11 @@ module "keyvault" {
 module "vnet" {
   source              = "./modules/vnet"
   vnet_name           = "my-vnet"
-  address_space       = ["10.0.0.0/16"]
+  address_space       = ["10.10.0.0/16"]
   location            = "eastus"
   resource_group_name = "POC-TF"
   subnet_name         = "aks-subnet"
-  subnet_prefixes     = ["10.0.1.0/24"]
+  subnet_prefixes     = ["10.10.1.0/24"]
 }
 
 module "identity" {
