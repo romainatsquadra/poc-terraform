@@ -9,27 +9,27 @@ module "keyvault" {
 
 module "vnet" {
   source              = "./modules/vnet"
-  vnet_name           = "my-vnet"
+  vnet_name           = "my-vnet-poc84895"
   address_space       = ["10.10.0.0/16"]
   location            = "eastus"
   resource_group_name = "POC-TF"
-  subnet_name         = "aks-subnet"
+  subnet_name         = "aks-subnet-poc84895"
   subnet_prefixes     = ["10.10.1.0/24"]
 }
 
 module "identity" {
   source              = "./modules/managed_identity"
-  name                = "aks-identity"
+  name                = "aks-identity-poc84895"
   location            = "eastus"
   resource_group_name = "POC-TF"
 }
 
 module "aks" {
   source              = "./modules/aks"
-  cluster_name        = "my-aks"
+  cluster_name        = "my-aks-poc84895"
   location            = "eastus"
   resource_group_name = "POC-TF"
-  dns_prefix          = "myaks"
+  dns_prefix          = "myaks-poc84895"
   node_count          = 3
   vm_size             = "Standard_DS2_v2"
   subnet_id           = module.vnet.subnet_id
