@@ -15,10 +15,10 @@ variable "resource_group_name" {
     default     = ""
 }
 variable "subnet_name" {
-    type        = list(string)
-    default     = [""]
-}
-variable "subnet_prefixes" {
     type        = string
     default     = ""
+}
+variable "subnet_prefixes" {
+    type        = list(string)
+    default     = [""]
 }
