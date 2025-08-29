@@ -5,7 +5,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = var.dns_prefix
 
   default_node_pool {
-    name       = "System"
+    name       = "system"
     node_count = var.node_count
     vm_size    = var.vm_size
     vnet_subnet_id = var.subnet_id
@@ -13,7 +13,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   identity {
     type = "UserAssigned"
-    user_assigned_identity_id = var.identity_id
+    identity_ids = [var.identity_id]
   }
 
   network_profile {
