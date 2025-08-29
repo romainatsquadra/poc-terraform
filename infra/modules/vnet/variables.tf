@@ -3,8 +3,8 @@ variable "vnet_name" {
     default     = ""
 }
 variable "address_space" {
-    type        = string
-    default     = ""
+    type        = list(string)
+    default     = [""]
 }
 variable "location" {
     type        = string
@@ -15,8 +15,8 @@ variable "resource_group_name" {
     default     = ""
 }
 variable "subnet_name" {
-    type        = string
-    default     = ""
+    type        = list(string)
+    default     = [""]
 }
 variable "subnet_prefixes" {
     type        = string

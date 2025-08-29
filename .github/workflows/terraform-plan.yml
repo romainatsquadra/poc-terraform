@@ -1,7 +1,22 @@
 name: terraform-manual
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [dev, qa, prod]
+        required: true
+      action:
+        type: choice
+        options: [plan, apply]
+        required: true
+      auto_approve:
+        type: boolean
+        default: false
+      var_file:
+        type: string
+
 
 permissions:
   contents: read
