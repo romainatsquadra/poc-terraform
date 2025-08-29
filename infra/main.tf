@@ -30,7 +30,7 @@ module "aks" {
   location            = "eastus"
   resource_group_name = "POC-TF"
   dns_prefix          = "myaks-poc84895"
-  node_count          = 3
+  node_count          = 1
   vm_size             = "Standard_DS2_v2"
   subnet_id           = module.vnet.subnet_id
   identity_id         = module.identity.identity_id
